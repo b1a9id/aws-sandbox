@@ -1,5 +1,6 @@
 package com.coiney.awssandbox.model;
 
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,5 @@ public class AwsUser implements Serializable {
 
 	private final Regions region;
 
-	private final String accessKey;
-
-	private final String secretKey;
+	private final ProfileCredentialsProvider credentialsProvider;
 }

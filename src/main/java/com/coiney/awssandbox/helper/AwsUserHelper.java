@@ -12,9 +12,6 @@ public class AwsUserHelper {
 	public static AwsUser getAwsUser() {
 		AwsProfileRegionProvider regionProvider = new AwsProfileRegionProvider("profile " + PROFILE);
 		Regions region = Regions.fromName(regionProvider.getRegion());
-		ProfileCredentialsProvider credentialsProvider =  new ProfileCredentialsProvider(PROFILE);
-		return new AwsUser(
-				PROFILE, region,
-				credentialsProvider.getCredentials().getAWSAccessKeyId(), credentialsProvider.getCredentials().getAWSSecretKey());
+		return new AwsUser(PROFILE, region, new ProfileCredentialsProvider(PROFILE));
 	}
 }
