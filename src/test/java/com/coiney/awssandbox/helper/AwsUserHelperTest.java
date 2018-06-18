@@ -13,7 +13,7 @@ class AwsUserHelperTest {
 	void getAwsUser() {
 		AwsUser awsUser = AwsUserHelper.getAwsUser();
 		assertAll(
-				() -> assertEquals("develop-ruchitate", awsUser.getProfile()),
+				() -> assertEquals("", awsUser.getProfile()),
 				() -> assertEquals(Regions.AP_NORTHEAST_1, awsUser.getRegion())
 		);
 	}

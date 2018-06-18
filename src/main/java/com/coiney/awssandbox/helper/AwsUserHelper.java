@@ -7,7 +7,7 @@ import com.coiney.awssandbox.model.AwsUser;
 
 public class AwsUserHelper {
 
-	private static final String PROFILE = "develop-ruchitate";
+	private static final String PROFILE = "";
 
 	public static AwsUser getAwsUser() {
 		AwsProfileRegionProvider regionProvider = new AwsProfileRegionProvider("profile " + PROFILE);
