@@ -135,4 +135,27 @@ class CognitoServiceTest {
 		}
 	}
 
+	@Nested
+	class GetUsers {
+
+		@Test
+		void success() {
+			ListUsersResult result = cognitoService.getUsers(USER_POOL_ID);
+			assertAll(() -> {
+				assertEquals(1, result.getUsers().size());
+				assertEquals("uchitate", result.getUsers().get(0).getUsername());
+			});
+		}
+	}
+
+	@Nested
+	class GetUser {
+
+		@Test
+		void success() {
+			AdminGetUserResult result = cognitoService.getUser(USER_POOL_ID, "uchitate");
+			assertEquals("uchitate", result.getUsername());
+		}
+	}
+
 }

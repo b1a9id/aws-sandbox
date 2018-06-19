@@ -62,6 +62,21 @@ public class CognitoService {
 		return client.adminResetUserPassword(request);
 	}
 
+	public ListUsersResult getUsers(String userPoolId) {
+		ListUsersRequest request = new ListUsersRequest();
+		request.withUserPoolId(userPoolId);
+		AWSCognitoIdentityProvider client = getCognitoIdentityProvider();
+		return client.listUsers(request);
+	}
+
+	public AdminGetUserResult getUser(String userPoolId, String userName) {
+		AdminGetUserRequest request = new AdminGetUserRequest();
+		request.withUserPoolId(userPoolId)
+				.withUsername(userName);
+		AWSCognitoIdentityProvider client = getCognitoIdentityProvider();
+		return client.adminGetUser(request);
+	}
+
 	private AWSCognitoIdentityProvider getCognitoIdentityProvider() {
 		AwsUser awsUser = AwsUserHelper.getAwsUser();
 		return AWSCognitoIdentityProviderClientBuilder.standard()
