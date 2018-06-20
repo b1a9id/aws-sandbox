@@ -1,4 +1,4 @@
-package com.coiney.awssandbox;
+package com.coiney.awssandbox.service;
 
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;

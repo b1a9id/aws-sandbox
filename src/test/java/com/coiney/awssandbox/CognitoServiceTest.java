@@ -2,6 +2,7 @@ package com.coiney.awssandbox;
 
 import com.amazonaws.services.cognitoidp.model.*;
 import com.coiney.awssandbox.model.User;
+import com.coiney.awssandbox.service.CognitoService;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -155,6 +156,12 @@ class CognitoServiceTest {
 		void success() {
 			AdminGetUserResult result = cognitoService.getUser(USER_POOL_ID, "uchitate");
 			assertEquals("uchitate", result.getUsername());
+		}
+
+		@Test
+		void userNotFound() {
+			UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> cognitoService.getUser(USER_POOL_ID, "uchi"));
+			assertTrue(exception.getMessage().contains("User does not exist."));
 		}
 	}
 
