@@ -58,6 +58,16 @@ class CognitoServiceTest {
 					assertThrows(UsernameExistsException.class, () -> cognitoService.createUser(USER_POOL_ID, user.getUserName(), user.getPassword()));
 			assertTrue(exception.getMessage().contains("User account already exists"));
 		}
+
+		@Test
+		void invalidPassword() {
+			user.setUserName(userName);
+			user.setPassword(tmpPassword);
+
+			InvalidParameterException exception =
+					assertThrows(InvalidParameterException.class, () -> cognitoService.createUser(USER_POOL_ID, user.getUserName(), user.getPassword()));
+			System.out.println(exception.getMessage());
+		}
 	}
 
 	@Nested
