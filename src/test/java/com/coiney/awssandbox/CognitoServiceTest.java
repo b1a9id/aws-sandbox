@@ -175,4 +175,15 @@ class CognitoServiceTest {
 		}
 	}
 
+	@Nested
+	class DeleteUser {
+
+		@Test
+		void success() {
+			AdminDeleteUserResult result = cognitoService.deleteUser("uchitate", USER_POOL_ID);
+			UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> cognitoService.getUser(USER_POOL_ID, "uchitate"));
+			assertTrue(exception.getMessage().contains("User does not exist."));
+		}
+	}
+
 }

@@ -62,6 +62,15 @@ public class CognitoService {
 		return client.adminResetUserPassword(request);
 	}
 
+	public AdminDeleteUserResult deleteUser(String username, String userPoolId) {
+		AdminDeleteUserRequest request = new AdminDeleteUserRequest();
+		request.withUsername(username)
+				.withUserPoolId(userPoolId);
+
+		AWSCognitoIdentityProvider client = getCognitoIdentityProvider();
+		return client.adminDeleteUser(request);
+	}
+
 	public ListUsersResult getUsers(String userPoolId) {
 		ListUsersRequest request = new ListUsersRequest();
 		request.withUserPoolId(userPoolId);
