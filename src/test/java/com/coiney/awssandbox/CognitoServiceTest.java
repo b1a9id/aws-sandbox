@@ -196,4 +196,20 @@ class CognitoServiceTest {
 		}
 	}
 
+	@Nested
+	class EnableUser {
+
+		@Test
+		void success() {
+			AdminEnableUserResult result = cognitoService.enableUser(USER_POOL_ID, "test");
+			assertEquals(200, result.getSdkHttpMetadata().getHttpStatusCode());
+		}
+
+		@Test
+		void userNotFound() {
+			UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> cognitoService.enableUser(USER_POOL_ID, "uchi"));
+			assertTrue(exception.getMessage().contains("User does not exist."));
+		}
+	}
+
 }

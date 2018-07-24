@@ -94,6 +94,14 @@ public class CognitoService {
 		return client.adminSetUserSettings(request);
 	}
 
+	public AdminEnableUserResult enableUser(String userPoolId, String username) {
+		AdminEnableUserRequest request = new AdminEnableUserRequest();
+		request.withUserPoolId(userPoolId)
+				.withUsername(username);
+		AWSCognitoIdentityProvider client = getCognitoIdentityProvider();
+		return client.adminEnableUser(request);
+	}
+
 	private AWSCognitoIdentityProvider getCognitoIdentityProvider() {
 		AwsUser awsUser = AwsUserHelper.getAwsUser();
 		return AWSCognitoIdentityProviderClientBuilder.standard()
