@@ -186,4 +186,14 @@ class CognitoServiceTest {
 		}
 	}
 
+	@Nested
+	class UpdateUsername {
+
+		@Test
+		void success() {
+			AdminSetUserSettingsResult result = cognitoService.updateUsername(USER_POOL_ID, "uchiuchi");
+			assertEquals(200, result.getSdkHttpMetadata().getHttpStatusCode());
+		}
+	}
+
 }
