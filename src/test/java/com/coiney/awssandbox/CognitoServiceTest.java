@@ -87,15 +87,13 @@ class CognitoServiceTest {
 			user.setUserName(userName);
 			user.setPassword(password);
 			AdminInitiateAuthResult result = cognitoService.authenticate(USER_POOL_ID, APP_CLIENT_ID, user);
-			if (!result.getChallengeName().equals(ChallengeNameType.NEW_PASSWORD_REQUIRED.toString())) {
-				assertNotNull(result.getAuthenticationResult().getAccessToken());
-			}
+			assertNotNull(result.getAuthenticationResult().getAccessToken());
 		}
 
 		@Test
 		void invalidPassword() {
 			user.setUserName(userName);
-			user.setPassword("");
+			user.setPassword("abcd1234");
 			NotAuthorizedException exception =
 					assertThrows(NotAuthorizedException.class, () -> cognitoService.authenticate(USER_POOL_ID, APP_CLIENT_ID, user));
 			assertTrue(exception.getMessage().contains("Incorrect username or password."));
