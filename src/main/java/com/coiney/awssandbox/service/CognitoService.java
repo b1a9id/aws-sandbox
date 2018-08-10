@@ -3,10 +3,16 @@ package com.coiney.awssandbox.service;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.*;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.coiney.awssandbox.helper.AwsUserHelper;
 import com.coiney.awssandbox.model.AwsUser;
 import com.coiney.awssandbox.model.User;
+import org.springframework.util.ObjectUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,6 +106,33 @@ public class CognitoService {
 				.withUsername(username);
 		AWSCognitoIdentityProvider client = getCognitoIdentityProvider();
 		return client.adminEnableUser(request);
+	}
+
+	public boolean verifyToken(String accessToken, String kid, String issuer) {
+		DecodedJWT decodedJWT;
+		try {
+			decodedJWT = JWT.decode(accessToken);
+		} catch (JWTDecodeException e) {
+			return false;
+		}
+
+		// ローカルのキーID(kid)とパブリックのkidの比較
+		if (!ObjectUtils.nullSafeEquals(kid, decodedJWT.getKeyId())) {
+			return false;
+		}
+
+		// 有効期限が切れていない
+		LocalDateTime expiredAt = decodedJWT.getExpiresAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		LocalDateTime now = LocalDateTime.now();
+		if (now.isAfter(expiredAt)) {
+			return false;
+		}
+
+		// 発行者(iss)のクレームがユーザプールと一致する
+		if (!ObjectUtils.nullSafeEquals(issuer, decodedJWT.getIssuer())) {
+			return false;
+		}
+		return true;
 	}
 
 	private AWSCognitoIdentityProvider getCognitoIdentityProvider() {
