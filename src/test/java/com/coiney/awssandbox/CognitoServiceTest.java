@@ -210,4 +210,50 @@ class CognitoServiceTest {
 		}
 	}
 
+	@Nested
+	class VerifyToken {
+		private User user;
+		private String userName = "";
+		private String password = "";
+		private String kid = "";
+		private String issuer = "";
+
+		@BeforeEach
+		void beforeEach() {
+			user = new User();
+		}
+
+		@Test
+		void success() {
+			user.setUserName(userName);
+			user.setPassword(password);
+			AdminInitiateAuthResult result = cognitoService.authenticate(USER_POOL_ID, APP_CLIENT_ID, user);
+			assertTrue(cognitoService.verifyToken(result.getAuthenticationResult().getAccessToken(), kid, issuer));
+		}
+	}
+
+	@Nested
+	class RefreshToken {
+		private User user;
+		private String userName = "";
+		private String password = "";
+
+		@BeforeEach
+		void beforeEach() {
+			user = new User();
+		}
+
+		@Test
+		void success() {
+			user.setUserName(userName);
+			user.setPassword(password);
+			AdminInitiateAuthResult result = cognitoService.authenticate(USER_POOL_ID, APP_CLIENT_ID, user);
+			String accessToken = result.getAuthenticationResult().getAccessToken();
+
+			String newAccessToken = cognitoService.refreshToken(
+					USER_POOL_ID, APP_CLIENT_ID, result.getAuthenticationResult().getRefreshToken());
+			assertNotNull(newAccessToken, accessToken);
+		}
+	}
+
 }

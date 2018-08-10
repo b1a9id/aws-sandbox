@@ -135,6 +135,18 @@ public class CognitoService {
 		return true;
 	}
 
+	public String refreshToken(String userPoolId, String clientId, String refreshToken) {
+		AdminInitiateAuthRequest request = new AdminInitiateAuthRequest();
+		request.withAuthFlow(AuthFlowType.REFRESH_TOKEN_AUTH)
+				.withUserPoolId(userPoolId)
+				.withClientId(clientId)
+				.addAuthParametersEntry("REFRESH_TOKEN", refreshToken);
+
+		AWSCognitoIdentityProvider client = getCognitoIdentityProvider();
+		AdminInitiateAuthResult result = client.adminInitiateAuth(request);
+		return result.getAuthenticationResult().getAccessToken();
+	}
+
 	private AWSCognitoIdentityProvider getCognitoIdentityProvider() {
 		AwsUser awsUser = AwsUserHelper.getAwsUser();
 		return AWSCognitoIdentityProviderClientBuilder.standard()
