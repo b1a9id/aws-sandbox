@@ -26,6 +26,7 @@ repositories {
 dependencies {
 	compile "org.springframework.boot:spring-boot-starter"
 	compile "com.amazonaws:aws-java-sdk:$awsJavaSdkVersion"
+	compile 'com.auth0:java-jwt:3.4.0'
 	runtime "org.springframework.boot:spring-boot-devtools"
 	compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 	compileOnly "org.projectlombok:lombok"
